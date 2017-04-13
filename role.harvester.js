@@ -11,9 +11,9 @@ var roleHarvester = {
             }
         }
         else {
-            targetSpawn = targetter.spawner(creep);    
-            if(creep.transfer(targetSpawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(targetSpawn, {visualizePathStyle: {stroke: '#ffffff'}});
+            targetStorage = targetter.store(creep);    
+            if(creep.transfer(targetStorage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(targetStorage, {visualizePathStyle: {stroke: '#ffffff'}});
             }
         }
     }

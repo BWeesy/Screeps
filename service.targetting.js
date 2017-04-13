@@ -15,12 +15,12 @@ var targetter = {
             }
         });
 
-        targetSpawner = targets[0]
+        targetSpawner = _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
         return targetSpawner
 
-    }
+    },
 
-    storage: function(creep) {
+    store: function(creep) {
         var targets = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE) &&
@@ -28,7 +28,7 @@ var targetter = {
             }
         });
 
-        if (targets) {
+        if (targets.length > 0) {
             targetStorage = _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
             return targetStorage
         } else{
@@ -38,8 +38,9 @@ var targetter = {
                         structure.energy < structure.energyCapacity;
                 }
             });
-            targetSpawn = _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
-            return targetSpawn
+
+            targetSpawner = _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
+            return targetSpawner
         }
         
 
