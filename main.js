@@ -31,6 +31,11 @@ module.exports.loop = function () {
             Game.spawns['Spawn1'].pos.x + 1, 
             Game.spawns['Spawn1'].pos.y, 
             {align: 'left', opacity: 0.8});
+        for(var i in Memory.creeps) {
+            if(!Game.creeps[i]) {
+                delete Memory.creeps[i];
+            }
+        }
     }
 
     for(var name in Game.creeps) {
