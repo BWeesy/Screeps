@@ -5,6 +5,7 @@ Population Control
 -Have efficient proportion of harvesters, upgraders and builders
 -Have memory accuractely represent the living creeps
 -Use the most efficient composition of creeps
+-Improve naming convention
 
 Targetting
 -Write a targetting service - Done

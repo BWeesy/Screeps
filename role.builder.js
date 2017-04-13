@@ -1,3 +1,4 @@
+var targetter = require('service.targetting');
 var roleBuilder = {
 
     /** @param {Creep} creep **/
@@ -22,10 +23,9 @@ var roleBuilder = {
             }
 	    }
 	    else {
-	        var sources = creep.room.find(FIND_SOURCES);
-	        //TODO write clever targeting based on energy left and proximity
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+	        targetStorage = targetter.withdraw(creep);
+            if(creep.harvest(targetStorage) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(targetStorage, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
 	    }
 	}

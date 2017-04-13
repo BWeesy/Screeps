@@ -44,6 +44,31 @@ var targetter = {
         }
         
 
+    },
+
+    withdraw: function(creep) {
+        var targets = creep.room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE) &&
+                    structure.energy > 0;
+            }
+        });
+
+        if (targets.length > 0) {
+            targetStorage = _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
+            return targetStorage
+        } else{
+            var targets = creep.room.find(FIND_SOURCES, {
+                filter: (source) => {
+                    return source.energy < source.energyCapacity;
+                }
+            });
+
+            targetSource = _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
+            return targetSource
+        }
+        
+
     }
 };
 
