@@ -73,21 +73,11 @@ var targetter = {
     },
 
     build: function(creep) {
-        var roads = creep.room.find(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return structure.structureType == STRUCTURE_ROAD && structure.hits < 0.20*structure.hitsMax;
-            }
-        });
-
-        if (roads.length > 0) {
-            targetRoad = _.sortBy(roads, r => r.hits)[0];
-            return targetRoad
-        }
 
         var constucts = creep.room.find(FIND_CONSTRUCTION_SITES);
 
         if (constucts.length > 0) {
-            targetConstruct = _.sortBy(constucts, c => c.progress/c.progressTotal)[0];
+            targetConstruct = _.sortBy(constucts, c => c.progress/c.progressTotal)[constucts.length-1];
             return targetConstruct
         }
 
