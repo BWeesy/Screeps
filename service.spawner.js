@@ -8,9 +8,9 @@ var spawner = {
         var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
         console.log('Harvesters: ' + harvesters.length + ' builders: ' + harvesters.length + ' Upgraders: ' + harvesters.length);
 
-        var targetPopulation = 4
+        var targetPopulation = 3
         var targetHarvesters = 1;
-        var targetBuilders = 2;
+        var targetBuilders = 1;
         var targetUpgraders = 1;
 
         if(harvesters.length < targetHarvesters) {
