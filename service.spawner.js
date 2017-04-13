@@ -6,7 +6,7 @@ var spawner = {
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
         var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
         var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
-        console.log('Harvesters: ' + harvesters.length + ' builders: ' + harvesters.length + ' Upgraders: ' + harvesters.length);
+        console.log('Harvesters: ' + harvesters.length + ' builders: ' + builders.length + ' Upgraders: ' + upgraders.length);
 
         var targetPopulation = 3
         var targetHarvesters = 1;
