@@ -13,12 +13,14 @@ var roleUpgrader = {
 	    }
 
 	    if(creep.memory.upgrading) {
+            //TODO write clever targeting based on completion and proximity
             if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
             }
         }
         else {
             var sources = creep.room.find(FIND_SOURCES);
+            //TODO write clever targeting based on energy available and proximity
             if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
             }
