@@ -20,17 +20,17 @@ var roleBuilder = {
 	    	if (targetRoad){
 	    		if(creep.repair(targetRoad) == ERR_NOT_IN_RANGE) {
                 	creep.moveTo(targetRoad, {visualizePathStyle: {stroke: '#ffaa00'}});
-                	creep.say('road');
+                	creep.say('r');
             	}
 	    	} else if (targetBuild) {
 	    		if(creep.build(targetBuild) == ERR_NOT_IN_RANGE) {
                 	creep.moveTo(targetBuild, {visualizePathStyle: {stroke: '#ffaa00'}});
-                	creep.say('build');
+                	creep.say('b');
             	}
 	    	} else if (targetWall){
 	    		if(creep.repair(targetWall) == ERR_NOT_IN_RANGE) {
                 	creep.moveTo(targetWall, {visualizePathStyle: {stroke: '#ffaa00'}});
-                	creep.say('wall');
+                	creep.say('w');
             	}
 	    	}
 	    } else {
