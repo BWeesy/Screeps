@@ -37,7 +37,6 @@ var targetter = {
                     structure.energy < structure.energyCapacity;
             }
         });
-
         if (targets.length > 0) {
             targetStorage = _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
             return targetStorage
@@ -117,6 +116,22 @@ var targetter = {
         if (walls.length > 0) {
             targetWall = _.sortBy(walls, w => w.hits)[0];
             return targetWall
+        } else {
+            return false
+        }
+    },
+
+    repair: function(creep) {
+
+        var repairs = creep.room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return structure.hits < 0.5*structure.hitsMax;
+            }
+        });
+
+        if (repair.length > 0) {
+            targetRepair = _.sortBy(repairs, r => r.hits)[0];
+            return targetRepair
         } else {
             return false
         }
