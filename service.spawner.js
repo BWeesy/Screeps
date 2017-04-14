@@ -6,10 +6,12 @@ var spawner = {
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
         var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
         var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
-        console.log('Harvesters: ' + harvesters.length + ' builders: ' + builders.length + ' Upgraders: ' + upgraders.length);
+        var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'hauler');
+        console.log('Harvesters: ' + harvesters.length + ' Haulers: ' + haulers.length + ' builders: ' + builders.length + ' Upgraders: ' + upgraders.length);
 
         var targetBuilders = 2;
         var targetUpgraders = 2;
+        var targetHaulers = 1;
 
         var sources = Game.spawns['Spawn1'].room.find(FIND_SOURCES);
         if(harvesters.length < sources.length) {
@@ -22,8 +24,15 @@ var spawner = {
             });
             var number = Math.random().toFixed(3) * 1000;
             harvesterName = 'harvester' + number.toString();
-            var newName = Game.spawns['Spawn1'].createCreep([WORK, WORK,CARRY,MOVE], harvesterName, {role: 'harvester', source: targetSource});
+            var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK, WORK,WORK,CARRY,CARRY,MOVE], harvesterName, {role: 'harvester', source: targetSource});
             console.log('Spawning new harvester: ' + newName);
+        }
+
+        if(haulers.length < targetHaulers) {
+            var number = Math.random().toFixed(3) * 1000;
+            haulerName = 'hauler' + number.toString();
+            var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE], haulerName, {role: 'upgrader'});
+            console.log('Spawning new hauler: ' + newName);
         }
         
         if(upgraders.length < targetUpgraders) {
@@ -36,7 +45,7 @@ var spawner = {
         if(builders.length < targetBuilders) {
             var number = Math.random().toFixed(3) * 1000;
             builderName = 'builder' + number.toString();
-            var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,MOVE], builderName, {role: 'builder'});
+            var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE,MOVE], builderName, {role: 'builder'});
             console.log('Spawning new builder: ' + newName);
         }
         

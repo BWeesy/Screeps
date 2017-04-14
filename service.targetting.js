@@ -37,7 +37,6 @@ var targetter = {
                          && structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
             }
         });
-        console.log(targets);
         if (targets.length > 0) {
             targetStorage = _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
             return targetStorage
