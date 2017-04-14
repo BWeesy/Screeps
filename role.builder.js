@@ -1,3 +1,4 @@
+var targetter = require('service.targetting');
 var roleBuilder = {
 
     /** @param {Creep} creep **/
@@ -13,19 +14,32 @@ var roleBuilder = {
 	    }
 
 	    if(creep.memory.building) {
-	        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-            if(targets.length) {
-            	//TODO write clever targeting based on completion and proximity
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
-                }
+	    	targetRoad = targetter.road(creep);
+	    	targetBuild = targetter.build(creep);
+	    	targetWall = targetter.wall(creep);
+	    	if (targetRoad){
+	    		if(creep.repair(targetRoad) == ERR_NOT_IN_RANGE) {
+                	creep.moveTo(targetRoad, {visualizePathStyle: {stroke: '#ffaa00'}});
+                	creep.say('r');
+            	}
+	    	} else if (targetBuild) {
+	    		if(creep.build(targetBuild) == ERR_NOT_IN_RANGE) {
+                	creep.moveTo(targetBuild, {visualizePathStyle: {stroke: '#ffaa00'}});
+                	creep.say('b');
+            	}
+	    	} else if (targetWall){
+	    		if(creep.repair(targetWall) == ERR_NOT_IN_RANGE) {
+                	creep.moveTo(targetWall, {visualizePathStyle: {stroke: '#ffaa00'}});
+                	creep.say('w');
+            	}
+	    	}
+	    } else {
+	        targetStorage = targetter.withdraw(creep);
+            if(creep.harvest(targetStorage) == ERR_NOT_IN_RANGE) {
+             	creep.moveTo(targetStorage, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
-	    }
-	    else {
-	        var sources = creep.room.find(FIND_SOURCES);
-	        //TODO write clever targeting based on energy left and proximity
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+            if(creep.withdraw(targetStorage) == ERR_NOT_IN_RANGE) {
+             	creep.moveTo(targetStorage, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
 	    }
 	}
