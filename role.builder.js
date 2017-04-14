@@ -37,10 +37,10 @@ var roleBuilder = {
 	    	}
 	    } else {
 	        targetStorage = targetter.withdraw(creep);
-            if(creep.harvest(targetStorage) == ERR_NOT_IN_RANGE) {
+	        if(creep.withdraw(targetStorage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
              	creep.moveTo(targetStorage, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
-            if(creep.withdraw(targetStorage) == ERR_NOT_IN_RANGE) {
+            if(creep.harvest(targetStorage) == ERR_NOT_IN_RANGE) {
              	creep.moveTo(targetStorage, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
 	    }

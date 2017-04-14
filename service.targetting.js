@@ -33,10 +33,11 @@ var targetter = {
     store: function(creep) {
         var targets = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
-                return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE) &&
-                    structure.energy < structure.energyCapacity;
+                return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE)
+                         && structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
             }
         });
+        console.log(targets);
         if (targets.length > 0) {
             targetStorage = _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
             return targetStorage
@@ -57,7 +58,7 @@ var targetter = {
         var targets = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE) &&
-                    structure.energy > 0;
+                    structure.store[RESOURCE_ENERGY] > 0;
             }
         });
 
