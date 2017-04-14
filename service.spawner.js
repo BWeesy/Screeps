@@ -13,9 +13,18 @@ var spawner = {
         var targetBuilders = 2;
         var targetUpgraders = 2;
 
-        if(harvesters.length < targetHarvesters) {
+        var sources = Game.spawns['Spawn1'].room.find(FIND_SOURCES);
+        if(harvesters.length < sources.length) {
+
+            sources.forEach(function(srs){
+            var tmp = Game.spawns['Spawn1'].room.find(FIND_MY_CREEPS, {filter: (s) => s.memory.source == srs.id})
+            if(tmp == ''){
+                targetSource = srs.id;
+            }
+            });
+
             //harvesterName = 'harvester' + (1+harvesters.length).toString();
-            var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+            var newName = Game.spawns['Spawn1'].createCreep([WORK, WORK,CARRY,MOVE], undefined, {role: 'harvester', source: targetSource});
             console.log('Spawning new harvester: ' + newName);
         }
         
@@ -27,7 +36,7 @@ var spawner = {
 
         if(builders.length < targetBuilders) {
             //builderName = 'builder' + (1+builders.length).toString();
-            var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
+            var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,MOVE], undefined, {role: 'builder'});
             console.log('Spawning new builder: ' + newName);
         }
         

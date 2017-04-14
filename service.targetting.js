@@ -2,14 +2,19 @@ var targetter = {
 
     /** @param {creep} creep**/
     source: function(creep) {
-        var targets = creep.room.find(FIND_SOURCES, {
-            filter: (source) => {
-                return source.energy < source.energyCapacity;
-            }
-        });
+        if (creep.memory.source) {
+            var targetSource = creep.pos.findClosestByPath(FIND_SOURCES,{filter: (s) => s.id == creep.memory.source});
+            return targetSource;
+        } else {
+            var targets = creep.room.find(FIND_SOURCES, {
+                filter: (source) => {
+                    return source.energy < source.energyCapacity;
+             }
+            });
 
-        targetSource = _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
-        return targetSource
+            targetSource = _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
+            return targetSource
+        }
     },
 
     spawner: function(creep) {
