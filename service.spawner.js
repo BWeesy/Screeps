@@ -45,7 +45,7 @@ var spawner = {
         if(builders.length < targetBuilders) {
             var number = Math.random().toFixed(3) * 1000;
             builderName = 'builder' + number.toString();
-            var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,MOVE], builderName, {role: 'builder'});
+            var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE,MOVE], builderName, {role: 'builder'});
             console.log('Spawning new builder: ' + newName);
         }
         
