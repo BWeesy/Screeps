@@ -6,31 +6,33 @@ var roleBuilder = {
 
 	    if(creep.memory.building && creep.carry.energy == 0) { //when out of energy, harvest
             creep.memory.building = false;
-            creep.say('?? harvest');
+            creep.say('harvest');
 	    }
 	    if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) { //when full, build
 	        creep.memory.building = true;
-	        creep.say('?? build');
+	        creep.say('build');
 	    }
 
 	    if(creep.memory.building) {
-	    	targetRoad = targetter.road(creep);
 	    	targetBuild = targetter.build(creep);
 	    	targetWall = targetter.wall(creep);
-	    	if (targetRoad){
-	    		if(creep.repair(targetRoad) == ERR_NOT_IN_RANGE) {
-                	creep.moveTo(targetRoad, {visualizePathStyle: {stroke: '#ffaa00'}});
-                	creep.say('r');
+	    	targetRepair = targetter.repair(creep);
+	    	if (targetRepair && !creep.memory.repairId){
+	    		creep.memory.repairId = targetRepair.id;
+	    	}
+	    	if (creep.memory.repairId){
+	    		if(creep.repair(Game.getObjectById(creep.memory.repairId)) == ERR_NOT_IN_RANGE) {
+                	creep.moveTo(Game.getObjectById(creep.memory.repairId), {visualizePathStyle: {stroke: '#ffaa00'}});
+                	console.log('moving');
+                	creep.say('re');
+            	}
+            	if (Game.getObjectById(creep.memory.repairId).hits == Game.getObjectById(creep.memory.repairId).hitsMax){
+            		creep.memory.repairId = false;
             	}
 	    	} else if (targetBuild) {
 	    		if(creep.build(targetBuild) == ERR_NOT_IN_RANGE) {
                 	creep.moveTo(targetBuild, {visualizePathStyle: {stroke: '#ffaa00'}});
                 	creep.say('b');
-            	}
-	    	} else if (targetWall){
-	    		if(creep.repair(targetWall) == ERR_NOT_IN_RANGE) {
-                	creep.moveTo(targetWall, {visualizePathStyle: {stroke: '#ffaa00'}});
-                	creep.say('w');
             	}
 	    	}
 	    } else {
