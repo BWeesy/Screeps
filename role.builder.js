@@ -38,6 +38,9 @@ var roleBuilder = {
             if(creep.harvest(targetStorage) == ERR_NOT_IN_RANGE) {
              	creep.moveTo(targetStorage, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
+            if(creep.withdraw(targetStorage) == ERR_NOT_IN_RANGE) {
+             	creep.moveTo(targetStorage, {visualizePathStyle: {stroke: '#ffaa00'}});
+            }
 	    }
 	}
 };
