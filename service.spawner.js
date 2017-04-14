@@ -9,9 +9,9 @@ var spawner = {
         var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'hauler');
         console.log('Harvesters: ' + harvesters.length + ' Haulers: ' + haulers.length + ' builders: ' + builders.length + ' Upgraders: ' + upgraders.length);
 
-        var targetBuilders = 2;
-        var targetUpgraders = 2;
-        var targetHaulers = 1;
+        var targetBuilders = 3;
+        var targetUpgraders = 3;
+        var targetHaulers = 2;
 
         var sources = Game.spawns['Spawn1'].room.find(FIND_SOURCES);
         if(harvesters.length < sources.length) {
@@ -24,21 +24,21 @@ var spawner = {
             });
             var number = Math.random().toFixed(3) * 1000;
             harvesterName = 'harvester' + number.toString();
-            var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK, WORK,WORK,CARRY,CARRY,MOVE], harvesterName, {role: 'harvester', source: targetSource});
+            var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK, WORK,WORK,WORK,CARRY,CARRY,MOVE], harvesterName, {role: 'harvester', source: targetSource});
             console.log('Spawning new harvester: ' + newName);
         }
 
         if(haulers.length < targetHaulers) {
             var number = Math.random().toFixed(3) * 1000;
             haulerName = 'hauler' + number.toString();
-            var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE], haulerName, {role: 'upgrader'});
+            var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE], haulerName, {role: 'hauler'});
             console.log('Spawning new hauler: ' + newName);
         }
         
         if(upgraders.length < targetUpgraders) {
             var number = Math.random().toFixed(3) * 1000;
             updaterName = 'updater' + number.toString();
-            var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], updaterName, {role: 'upgrader'});
+            var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], updaterName, {role: 'upgrader'});
             console.log('Spawning new upgrader: ' + newName);
         }
 
