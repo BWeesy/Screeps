@@ -86,7 +86,7 @@ var targetter = {
             return targetConstruct
         }
         else{
-            return -1
+            return false
         }
     },
 
@@ -102,7 +102,7 @@ var targetter = {
             targetRoad = _.sortBy(roads, r => r.hits)[0];
             return targetRoad
         } else {
-            return -1
+            return false
         }
     },
 
@@ -118,7 +118,7 @@ var targetter = {
             targetWall = _.sortBy(walls, w => w.hits)[0];
             return targetWall
         } else {
-            return -1
+            return false
         }
     }
 };
