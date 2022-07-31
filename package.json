@@ -1,0 +1,26 @@
+{
+  "name": "Screeps",
+  "version": "0.0.1",
+  "description": "A truly horrifying experience to witness, this repository documented the trials and tribulations of using javascript to do something it wasn't designed for without guidance nor mentor.",
+  "main": "main.js",
+  "dependencies": {
+    "grunt": "^1.5.3",
+    "grunt-screeps": "^1.5.0",
+    "jshint": "^2.13.5"
+  },
+  "devDependencies": {
+    "grunt-contrib-clean": "^2.0.1",
+    "grunt-contrib-copy": "^1.0.0"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BWeesy/Screeps.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BWeesy/Screeps/issues"
+  },
+  "homepage": "https://github.com/BWeesy/Screeps#readme"
+}
