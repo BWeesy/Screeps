@@ -1,0 +1,71 @@
+var spawnerName = "Gubbins";
+
+var spawner = {
+
+    /** @param {} **/
+    run: function() {
+
+        var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
+        var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
+        var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
+        var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'hauler');
+        console.log('Harvesters: ' + harvesters.length + ' Haulers: ' + haulers.length + ' builders: ' + builders.length + ' Upgraders: ' + upgraders.length);
+
+        var targetBuilders = 2;
+        var targetUpgraders = 2;
+        var targetHaulers = 1;
+
+        var sources = Game.spawns[spawnerName].room.find(FIND_SOURCES);
+        if(harvesters.length < sources.length) {
+
+            sources.forEach(function(srs){
+            var tmp = Game.spawns[spawnerName].room.find(FIND_MY_CREEPS, {filter: (s) => s.memory.source == srs.id})
+            if(tmp == ''){
+                targetSource = srs.id;
+            }
+            });
+            var number = Math.random().toFixed(3) * 1000;
+            harvesterName = 'harvester' + number.toString();
+            var newName = Game.spawns[spawnerName].createCreep([WORK,WORK, WORK,WORK,CARRY,CARRY,MOVE], harvesterName, {role: 'harvester', source: targetSource});
+            console.log('Spawning new harvester: ' + newName);
+        }
+
+        if(haulers.length < targetHaulers) {
+            var number = Math.random().toFixed(3) * 1000;
+            haulerName = 'hauler' + number.toString();
+            var newName = Game.spawns[spawnerName].createCreep([WORK,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE], haulerName, {role: 'upgrader'});
+            console.log('Spawning new hauler: ' + newName);
+        }
+        
+        if(upgraders.length < targetUpgraders) {
+            var number = Math.random().toFixed(3) * 1000;
+            updaterName = 'updater' + number.toString();
+            var newName = Game.spawns[spawnerName].createCreep([WORK,CARRY,MOVE], updaterName, {role: 'upgrader'});
+            console.log('Spawning new upgrader: ' + newName);
+        }
+
+        if(builders.length < targetBuilders) {
+            var number = Math.random().toFixed(3) * 1000;
+            builderName = 'builder' + number.toString();
+            var newName = Game.spawns[spawnerName].createCreep([WORK,CARRY,CARRY,CARRY,MOVE,MOVE], builderName, {role: 'builder'});
+            console.log('Spawning new builder: ' + newName);
+        }
+        
+        if(Game.spawns[spawnerName].spawning) { 
+            var spawningCreep = Game.creeps[Game.spawns[spawnerName].spawning.name];
+            Game.spawns[spawnerName].room.visual.text(
+                '🛠️' + spawningCreep.memory.role,
+                Game.spawns[spawnerName].pos.x + 1, 
+                Game.spawns[spawnerName].pos.y, 
+                {align: 'left', opacity: 0.8});
+            for(var i in Memory.creeps) {
+                if(!Game.creeps[i]) {
+                    delete Memory.creeps[i];
+                }
+            }
+        }
+
+    }
+};
+
+module.exports = spawner;
