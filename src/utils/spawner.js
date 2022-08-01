@@ -1,70 +1,109 @@
+const body = require("utils_body_constants");
+const roles = require("utils_role_constants");
+
 var spawnerName = "Gubbins";
+
+var createName = (role) => {
+    var number = Math.random().toFixed(3) * 1000;
+    return role + number.toString();
+}
 
 var spawner = {
 
     /** @param {} **/
     run: function() {
-
-        var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-        var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-        var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
-        var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'hauler');
-        console.log('Harvesters: ' + harvesters.length + ' Haulers: ' + haulers.length + ' builders: ' + builders.length + ' Upgraders: ' + upgraders.length);
-
-        var targetBuilders = 2;
-        var targetUpgraders = 2;
-        var targetHaulers = 1;
-
-        var sources = Game.spawns[spawnerName].room.find(FIND_SOURCES);
-        if(harvesters.length < sources.length) {
-
-            sources.forEach(function(srs){
-            var tmp = Game.spawns[spawnerName].room.find(FIND_MY_CREEPS, {filter: (s) => s.memory.source == srs.id})
-            if(tmp == ''){
-                targetSource = srs.id;
-            }
-            });
-            var number = Math.random().toFixed(3) * 1000;
-            harvesterName = 'harvester' + number.toString();
-            var newName = Game.spawns[spawnerName].createCreep([WORK,WORK, WORK,WORK,CARRY,CARRY,MOVE], harvesterName, {role: 'harvester', source: targetSource});
-            console.log('Spawning new harvester: ' + newName);
-        }
-
-        if(haulers.length < targetHaulers) {
-            var number = Math.random().toFixed(3) * 1000;
-            haulerName = 'hauler' + number.toString();
-            var newName = Game.spawns[spawnerName].createCreep([WORK,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE], haulerName, {role: 'upgrader'});
-            console.log('Spawning new hauler: ' + newName);
-        }
+        var spawner = Game.spawns[spawnerName];
+        var maxEnergy = spawner.store.getCapacity(RESOURCE_ENERGY);
+        var availableEnergy = spawner.store.getUsedCapacity(RESOURCE_ENERGY);
         
-        if(upgraders.length < targetUpgraders) {
-            var number = Math.random().toFixed(3) * 1000;
-            updaterName = 'updater' + number.toString();
-            var newName = Game.spawns[spawnerName].createCreep([WORK,CARRY,MOVE], updaterName, {role: 'upgrader'});
-            console.log('Spawning new upgrader: ' + newName);
-        }
-
-        if(builders.length < targetBuilders) {
-            var number = Math.random().toFixed(3) * 1000;
-            builderName = 'builder' + number.toString();
-            var newName = Game.spawns[spawnerName].createCreep([WORK,CARRY,CARRY,CARRY,MOVE,MOVE], builderName, {role: 'builder'});
-            console.log('Spawning new builder: ' + newName);
-        }
-        
-        if(Game.spawns[spawnerName].spawning) { 
-            var spawningCreep = Game.creeps[Game.spawns[spawnerName].spawning.name];
-            Game.spawns[spawnerName].room.visual.text(
+        if(spawner.spawning) { 
+            var spawningCreep = Game.creeps[spawner.spawning.name];
+            spawner.room.visual.text(
                 '🛠️' + spawningCreep.memory.role,
-                Game.spawns[spawnerName].pos.x + 1, 
-                Game.spawns[spawnerName].pos.y, 
+                spawner.pos.x + 1, 
+                spawner.pos.y, 
                 {align: 'left', opacity: 0.8});
             for(var i in Memory.creeps) {
                 if(!Game.creeps[i]) {
                     delete Memory.creeps[i];
                 }
             }
+            return;
+        } else {
+            spawner.room.visual.text(
+                `🟡 ${availableEnergy}/${maxEnergy}`,
+                spawner.pos.x + 1, 
+                spawner.pos.y, 
+                {align: 'left', opacity: 0.8});
         }
 
+        if(maxEnergy != availableEnergy){
+            return;
+        }
+
+        var targetBuilders = 2;
+        var targetUpgraders = 2;
+        var targetHaulers = 10;
+
+        var sources = spawner.room.find(FIND_SOURCES);
+
+        var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == roles.HARVEST);
+        var builders = _.filter(Game.creeps, (creep) => creep.memory.role == roles.BUILD);
+        var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == roles.UPGRADE);
+        var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == roles.HAUL);
+        console.log(`Harv: ${harvesters.length}/${sources.length} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
+
+        if(harvesters.length < sources.length) {
+
+            sources.forEach(function(srs){
+            var tmp = spawner.room.find(FIND_MY_CREEPS, {filter: (s) => s.memory.source == srs.id})
+            if(tmp == ''){
+                targetSource = srs.id;
+            }
+            });
+
+            var bodyPieces = [MOVE, CARRY];
+            var cost = body.MOVE.cost + body.CARRY.cost;
+            while(cost + body.WORK.cost <= availableEnergy){
+                bodyPieces.push(WORK);
+                cost += body.WORK.cost;
+            }
+
+            var code = spawner.spawnCreep(bodyPieces, createName(roles.HARVEST), {memory: {role: roles.HARVEST, source: targetSource}});
+            console.log('Spawning new harvester: ' + code);
+            return;
+        }
+        
+        if(upgraders.length < targetUpgraders) {
+            var code = spawner.spawnCreep([WORK,CARRY,MOVE], createName(roles.UPGRADE), {memory: {role: roles.UPGRADE}});
+            console.log('Spawning new upgrader: ' + code);
+            return;
+        }
+
+        if(builders.length < targetBuilders) {
+            var bodyPieces = [MOVE, MOVE, WORK];
+            var cost = body.MOVE.cost * 2 + body.WORK.cost;
+            while(cost + body.CARRY.cost <= availableEnergy){
+                bodyPieces.push(CARRY);
+                cost += body.CARRY.cost;
+            }
+            var code = spawner.spawnCreep(bodyPieces, createName(roles.BUILD), {memory: {role: roles.BUILD}});
+            console.log('Spawning new builder: ' + code);
+            return;
+        }
+
+        if(haulers.length < targetHaulers) {
+            var bodyPieces = [MOVE, CARRY];
+            var cost = body.MOVE.cost + body.CARRY.cost;
+            while(cost + body.WORK.cost + body.CARRY.cost <= availableEnergy){
+                bodyPieces.push(WORK);
+                bodyPieces.push(CARRY);
+                cost += body.WORK.cost + body.CARRY.cost;
+            }
+            var code = spawner.spawnCreep(bodyPieces, createName(roles.HAUL), {memory: {role: roles.HAUL}});
+            console.log('Spawning new hauler: ' + code);
+            return;
+        }
     }
 };
 
