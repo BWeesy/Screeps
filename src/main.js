@@ -1,8 +1,8 @@
-var roleHarvester = require('role.harvester');
-var roleUpgrader = require('role.upgrader');
-var roleBuilder = require('role.builder');
-var roleHauler = require('role.hauler');
-var spawner = require('service.spawner');
+var roleHarvester = require('role_harvester');
+var roleUpgrader = require('role_upgrader');
+var roleBuilder = require('role_builder');
+var roleHauler = require('role_hauler');
+var spawner = require('utils_spawner');
 
 module.exports.loop = function () {
     spawner.run();

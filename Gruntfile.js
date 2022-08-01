@@ -21,7 +21,14 @@ module.exports = function(grunt) {
         copy: {
             js: {
                 files: [
-                    { expand:true, flatten: true, cwd: 'src', src: '**', dest : 'dist/' }
+                    { expand:true,
+                        cwd: 'src/',
+                        src: '**',
+                        dest : 'dist/',
+                        filter: 'isFile',
+                        rename: function (dest, src) {
+                        return dest + src.replace(/\//g,'_'); // Change the path name utilize underscores for folders
+                      }}
                 ]
             }
         },

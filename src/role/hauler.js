@@ -1,4 +1,4 @@
-var targetter = require('service.targetting');
+var targetter = require('utils_targetting');
 var roleHauler = {
 
     /** @param {Creep} creep **/
