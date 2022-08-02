@@ -75,7 +75,8 @@ var spawner = {
         }
         
         if(upgraders.length < targetUpgraders) {
-            var code = spawner.spawnCreep([WORK,CARRY,MOVE], createName(roles.UPGRADE), {memory: {role: roles.UPGRADE}});
+            bodyPieces = [WORK, CARRY, MOVE];
+            var code = spawner.spawnCreep(bodyPieces, createName(roles.UPGRADE), {memory: {role: roles.UPGRADE}});
             console.log('Spawning new upgrader: ' + code);
             return;
         }
