@@ -28,9 +28,8 @@ function spawnHarvester() {
 
 
 function spawnBuilder() {
-
-    var bodyPieces = [MOVE, MOVE, WORK];
-    var cost = body.MOVE.cost * 2 + body.WORK.cost;
+    var bodyPieces = [MOVE, CARRY, WORK];
+    var cost = body.MOVE.cost + body.CARRY.cost + body.WORK.cost;
     while(cost + body.CARRY.cost <= availableEnergy){
         bodyPieces.push(CARRY);
         cost += body.CARRY.cost;

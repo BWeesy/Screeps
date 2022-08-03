@@ -32,9 +32,9 @@ var spawner = {
                 {align: 'left', opacity: 0.8});
         }
 
-        //if(maxEnergy != availableEnergy){
-        //    return;
-        //}
+        if(maxEnergy != availableEnergy){
+            return;
+        }
 
         var sources = spawner.room.find(FIND_SOURCES);
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == roles.HARVEST);
@@ -49,31 +49,38 @@ var spawner = {
         var targetHaulers = 1;
 
 
-        
+        while (true){
 
         if(harvesters.length < targetHarvesters) {
             spawnHarvester();
-            return;
+            break;
         }
         
         else if(upgraders.length < targetUpgraders) {
             spawnUpgrader();
-            return;
+            break;
         }
 
         else if(builders.length < targetBuilders) {
             spawnBuilder();
-            return;
+            break;
         }
 
         else if(haulers.length < targetHaulers) {
             spawnHauler();
-            return;
+            break;
         }
 
+        else {
+            targetHarvesters += 1;
+            targetBuilders += 1;
+            targetUpgraders += 1;
+            targetHaulers += 1;
+        }
 
+        }
         console.log(`Harv: ${harvesters.length}/${sources.length} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
-
+        return;
     }
 }
 
