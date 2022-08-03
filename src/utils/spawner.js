@@ -49,37 +49,52 @@ var spawner = {
         var targetHaulers = 1;
 
 
-        while (true){
-
         if(harvesters.length < targetHarvesters) {
+            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
             spawnHarvester();
-            break;
         }
         
         else if(upgraders.length < targetUpgraders) {
+            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
             spawnUpgrader();
-            break;
         }
 
         else if(builders.length < targetBuilders) {
+            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
             spawnBuilder();
-            break;
         }
 
         else if(haulers.length < targetHaulers) {
+            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
             spawnHauler();
-            break;
         }
 
         else {
-            targetHarvesters += 1;
-            targetBuilders += 1;
-            targetUpgraders += 1;
-            targetHaulers += 1;
+            //targetHarvesters += 1;
+            targetBuilders = 2;
+            targetUpgraders = 2;
+            targetHaulers = 2;
         }
 
+        if(harvesters.length < targetHarvesters) {
+            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
+            spawnHarvester();
         }
-        console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
+        
+        else if(upgraders.length < targetUpgraders) {
+            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
+            spawnUpgrader();
+        }
+
+        else if(builders.length < targetBuilders) {
+            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
+            spawnBuilder();
+        }
+
+        else if(haulers.length < targetHaulers) {
+            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
+            spawnHauler();
+        }
         return;
     }
 }
