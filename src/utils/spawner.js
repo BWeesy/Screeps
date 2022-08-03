@@ -79,7 +79,7 @@ var spawner = {
         }
 
         }
-        console.log(`Harv: ${harvesters.length}/${sources.length} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
+        console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
         return;
     }
 }
