@@ -4,7 +4,7 @@ var createName = require("utils_naming")
 
 var spawner = Game.spawns['Gubbins'];
 var sources = spawner.room.find(FIND_SOURCES);
-var availableEnergy = spawner.store.getUsedCapacity(RESOURCE_ENERGY);
+var availableEnergy = spawner.room.energyAvailable;
 
 function spawnHarvester() {
     sources.forEach(function(srs){
@@ -14,8 +14,8 @@ function spawnHarvester() {
         }
         });
 
-        var bodyPieces = [MOVE, CARRY];
-        var cost = body.MOVE.cost + body.CARRY.cost;
+        var bodyPieces = [WORK, MOVE, CARRY];
+        var cost = body.WORK.cost + body.MOVE.cost + body.CARRY.cost;
         while(cost + body.WORK.cost <= availableEnergy){
             bodyPieces.push(WORK);
             cost += body.WORK.cost;
