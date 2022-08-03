@@ -8,8 +8,8 @@ var spawner = {
     /** @param {} **/
     run: function() {
         var spawner = Game.spawns[spawnerName];
-        var maxEnergy = spawner.store.getCapacity(RESOURCE_ENERGY);
-        var availableEnergy = spawner.store.getUsedCapacity(RESOURCE_ENERGY);
+        var maxEnergy = spawner.room.energyCapacityAvailable;
+        var availableEnergy = spawner.room.energyAvailable;
         
         if(spawner.spawning) { 
             var spawningCreep = Game.creeps[spawner.spawning.name];
@@ -32,28 +32,26 @@ var spawner = {
                 {align: 'left', opacity: 0.8});
         }
 
-        if(maxEnergy != availableEnergy){
-            return;
-
-        }
+        //if(maxEnergy != availableEnergy){
+        //    return;
+        //}
 
         var sources = spawner.room.find(FIND_SOURCES);
+        var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == roles.HARVEST);
+        var builders = _.filter(Game.creeps, (creep) => creep.memory.role == roles.BUILD);
+        var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == roles.UPGRADE);
+        var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == roles.HAUL);
+
 
         var targetHarvesters = sources.length;
         var targetBuilders = 1;
         var targetUpgraders = 1;
         var targetHaulers = 1;
 
+
         
 
-        var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == roles.HARVEST);
-        var builders = _.filter(Game.creeps, (creep) => creep.memory.role == roles.BUILD);
-        var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == roles.UPGRADE);
-        var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == roles.HAUL);
-        console.log(`Harv: ${harvesters.length}/${sources.length} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
-
-
-        if(harvesters.length < sources.length) {
+        if(harvesters.length < targetHarvesters) {
             spawnHarvester();
             return;
         }
@@ -72,6 +70,10 @@ var spawner = {
             spawnHauler();
             return;
         }
+
+
+        console.log(`Harv: ${harvesters.length}/${sources.length} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
+
     }
 }
 
