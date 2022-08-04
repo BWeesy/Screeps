@@ -1,5 +1,5 @@
 const body = require("utils_body_constants");
-const roles = require("utils_role_constants");
+//const roles = require("utils_role_constants");
 var createName = require("utils_naming")
 
 var spawner = Game.spawns['Gubbins'];
@@ -21,7 +21,7 @@ function spawnHarvester() {
             cost += body.WORK.cost;
         }
 
-        var code = spawner.spawnCreep(bodyPieces, createName(roles.HARVEST), {memory: {role: roles.HARVEST, source: targetSource}});
+        var code = spawner.spawnCreep(bodyPieces, createName('harvester'), {memory: {role: 'harvester', source: targetSource}});
         console.log('Spawning new harvester: ' + code);
         return;
 }
@@ -29,18 +29,19 @@ function spawnHarvester() {
 function spawnBuilder() {
     var bodyPieces = [MOVE, CARRY, WORK];
     var cost = body.MOVE.cost + body.CARRY.cost + body.WORK.cost;
-    while(cost + body.CARRY.cost <= availableEnergy){
+    while(cost + body.WORK.cost + body.CARRY.cost <= availableEnergy){
+        bodyPieces.push(WORK);
         bodyPieces.push(CARRY);
-        cost += body.CARRY.cost;
+        cost += body.WORK.cost + body.CARRY.cost;
     }
-    var code = spawner.spawnCreep(bodyPieces, createName(roles.BUILD), {memory: {role: roles.BUILD}});
+    var code = spawner.spawnCreep(bodyPieces, createName('builder'), {memory: {role: 'builder'}});
     console.log('Spawning new builder: ' + code);
     return;
 }
 
 function spawnUpgrader() {
     var bodyPieces = [WORK, CARRY, MOVE];
-    var code = spawner.spawnCreep(bodyPieces, createName(roles.UPGRADE), {memory: {role: roles.UPGRADE}});
+    var code = spawner.spawnCreep(bodyPieces, createName('upgrader'), {memory: {role: 'upgrader'}});
     console.log('Spawning new upgrader: ' + code);
     return;
 }
@@ -53,7 +54,7 @@ function spawnHauler() {
         bodyPieces.push(CARRY);
         cost += body.WORK.cost + body.CARRY.cost;
     }
-    var code = spawner.spawnCreep(bodyPieces, createName(roles.HAUL), {memory: {role: roles.HAUL}});
+    var code = spawner.spawnCreep(bodyPieces, createName('hauler'), {memory: {role: 'hauler'}});
     console.log('Spawning new hauler: ' + code);
     return;
 }

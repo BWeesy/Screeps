@@ -36,64 +36,35 @@ var spawner = {
             return;
         }
 
-        var sources = spawner.room.find(FIND_SOURCES);
-        var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == roles.HARVEST);
-        var builders = _.filter(Game.creeps, (creep) => creep.memory.role == roles.BUILD);
-        var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == roles.UPGRADE);
-        var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == roles.HAUL);
-
-
-        var targetHarvesters = sources.length;
-        var targetBuilders = 1;
-        var targetUpgraders = 1;
-        var targetHaulers = 1;
-
-
-        if(harvesters.length < targetHarvesters) {
-            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
-            spawnHarvester();
-        }
-        
-        else if(upgraders.length < targetUpgraders) {
-            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
-            spawnUpgrader();
+        var creepDict = {
+            'harvester' : {
+                actual : (_.filter(Game.creeps, (creep) => creep.memory.role == 'harvester')).length,
+                target : 0
+            },
+            'builder' : {
+                actual : (_.filter(Game.creeps, (creep) => creep.memory.role == 'builder')).length,
+                target : 0
+            },
+            'upgrader' : {
+                actual : (_.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader')).length,
+                target : 0
+            },
+            'hauler' : {
+                actual : (_.filter(Game.creeps, (creep) => creep.memory.role == 'hauler')).length,
+                target : 0
+            }
         }
 
-        else if(builders.length < targetBuilders) {
-            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
-            spawnBuilder();
-        }
+        var spawnList = [roles.HARVEST,roles.HARVEST,roles.HAUL,roles.BUILD,roles.UPGRADE,roles.BUILD,roles.UPGRADE,roles.HAUL];
 
-        else if(haulers.length < targetHaulers) {
-            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
-            spawnHauler();
+        for (var role in spawnList){
+            creepDict[spawnList[role].name].target ++;
+            if (creepDict[spawnList[role].name].actual < creepDict[spawnList[role].name].target){
+                spawnList[role].spawn();
+                return
+            }
         }
-
-        else {
-            targetBuilders = 2;
-            targetUpgraders = 2;
-            targetHaulers = 2;
-        }
-
-        if(harvesters.length < targetHarvesters) {
-            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
-            spawnHarvester();
-        }
-        
-        else if(upgraders.length < targetUpgraders) {
-            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
-            spawnUpgrader();
-        }
-
-        else if(builders.length < targetBuilders) {
-            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
-            spawnBuilder();
-        }
-
-        else if(haulers.length < targetHaulers) {
-            console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
-            spawnHauler();
-        }
+        //console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
         return;
     }
 }
