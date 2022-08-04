@@ -64,7 +64,6 @@ var spawner = {
                 return
             }
         }
-        //console.log(`Harv: ${harvesters.length}/${targetHarvesters} Haul: ${haulers.length}/${targetHaulers} Buil: ${builders.length}/${targetBuilders} Upgr: ${upgraders.length}/${targetUpgraders}`);
         return;
     }
 }
