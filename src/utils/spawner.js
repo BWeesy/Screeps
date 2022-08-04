@@ -70,7 +70,6 @@ var spawner = {
         }
 
         else {
-            //targetHarvesters += 1;
             targetBuilders = 2;
             targetUpgraders = 2;
             targetHaulers = 2;
