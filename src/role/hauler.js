@@ -6,8 +6,6 @@ var roleHauler = {
 
         if(creep.carry.energy == 0) {
             if (!creep.memory.targetStorage){
-                console.log(targetter.withdraw(creep))
-                console.log(targetter.withdraw(creep).id)
 	        creep.memory.targetStorage = targetter.withdraw(creep).id;
         }
 	        if(creep.withdraw(Game.getObjectById(creep.memory.targetStorage), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {

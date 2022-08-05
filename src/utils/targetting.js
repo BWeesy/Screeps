@@ -62,7 +62,7 @@ var targetter = {
         });
 
         if (targets.length > 0) {
-            targetStorage = _.sortBy(targets, t => t.store[RESOURCE_ENERGY])[targets.length -1];
+            targetStorage = _.last(_.sortBy(targets, t => t.store[RESOURCE_ENERGY]));
             return targetStorage
         } else{
             var targets = creep.room.find(FIND_SOURCES, {
@@ -78,10 +78,10 @@ var targetter = {
 
     build: function(creep) {
 
-        var constucts = creep.room.find(FIND_CONSTRUCTION_SITES);
+        var constructs = creep.room.find(FIND_CONSTRUCTION_SITES);
 
-        if (constucts.length > 0) {
-            targetConstruct = _.sortBy(constucts, c => c.progress/c.progressTotal)[constucts.length-1];
+        if (constructs.length > 0) {
+            targetConstruct = _.last(_.sortBy(constructs, c => c.progress/c.progressTotal));
             return targetConstruct
         }
         else{
