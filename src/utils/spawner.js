@@ -32,10 +32,6 @@ var spawner = {
                 {align: 'left', opacity: 0.8});
         }
 
-        if(maxEnergy != availableEnergy){
-            return;
-        }
-
         var creepDict = {
             'harvester' : {
                 actual : (_.filter(Game.creeps, (creep) => creep.memory.role == 'harvester')).length,
@@ -53,6 +49,14 @@ var spawner = {
                 actual : (_.filter(Game.creeps, (creep) => creep.memory.role == 'hauler')).length,
                 target : 0
             }
+        }
+
+        spawnEnergy = spawner.store.getUsedCapacity(RESOURCE_ENERGY);
+        if(maxEnergy != availableEnergy){
+            if(spawnEnergy == SPAWN_ENERGY_CAPACITY && creepDict['harvester'].actual == 0){
+                spawnHarvester()
+            }
+            return;
         }
 
         var spawnList = [roles.HARVEST,roles.HARVEST,roles.HAUL,roles.BUILD,roles.UPGRADE,roles.BUILD,roles.UPGRADE,roles.HAUL];
