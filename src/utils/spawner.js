@@ -59,8 +59,6 @@ var spawner = {
             return;
         }
 
-
-
         var spawnList = [roles.HARVEST,roles.HARVEST,roles.HAUL,roles.BUILD,roles.UPGRADE,roles.BUILD,roles.UPGRADE,roles.HAUL];
 
         for (var role in spawnList){
