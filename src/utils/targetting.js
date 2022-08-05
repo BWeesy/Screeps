@@ -122,4 +122,4 @@ var targetter = {
     }
 };
 
-module.exports = targetter;
+export default targetter;

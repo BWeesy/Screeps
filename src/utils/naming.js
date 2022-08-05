@@ -3,4 +3,4 @@ var createName = (role) => {
     return role + number.toString();
 }
 
-module.exports = createName;
+export default createName;

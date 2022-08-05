@@ -1,8 +1,8 @@
-var {spawnBuilder, spawnHarvester, spawnHauler, spawnUpgrader} = require("utils_spawning");
+import spawning from '../utils/spawning.js';
 
-module.exports = {
-    HARVEST: {name : 'harvester', spawn : spawnHarvester},
-    BUILD: {name : 'builder', spawn : spawnBuilder},
-    HAUL: {name : 'hauler', spawn : spawnHauler},
-    UPGRADE: {name : 'upgrader', spawn : spawnUpgrader}
+export default {
+    HARVEST: {name : 'harvester', spawn : spawning.spawnHarvester},
+    BUILD: {name : 'builder', spawn : spawning.spawnBuilder},
+    HAUL: {name : 'hauler', spawn : spawning.spawnHauler},
+    UPGRADE: {name : 'upgrader', spawn : spawning.spawnUpgrader}
 };

@@ -1,4 +1,4 @@
-var targetter = require('utils_targetting');
+import targetter from '../utils/targetting.js';
 var roleBuilder = {
 
     /** @param {Creep} creep **/
@@ -14,7 +14,7 @@ var roleBuilder = {
 	    }
 
 	    if(creep.memory.building) {
-	    	targetBuild = targetter.build(creep);
+	    	var targetBuild = targetter.build(creep);
 	    	targetWall = targetter.wall(creep);
 	    	targetRepair = targetter.repair(creep);
 	    	if (targetRepair && !creep.memory.repairId){
@@ -47,4 +47,4 @@ var roleBuilder = {
 	}
 };
 
-module.exports = roleBuilder;
+export default roleBuilder;

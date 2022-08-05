@@ -1,6 +1,5 @@
-const body = require("utils_body_constants");
-//const roles = require("utils_role_constants");
-var createName = require("utils_naming")
+import body from './body_constants.js';
+import createName from './naming';
 
 var spawner = Game.spawns['Gubbins'];
 var sources = spawner.room.find(FIND_SOURCES);
@@ -10,7 +9,7 @@ function spawnHarvester() {
     sources.forEach(function(srs){
         var tmp = spawner.room.find(FIND_MY_CREEPS, {filter: (s) => s.memory.source == srs.id})
         if(tmp == ''){
-            targetSource = srs.id;
+            var targetSource = srs.id;
         }
         });
 
@@ -59,7 +58,7 @@ function spawnHauler() {
     return;
 }
 
-module.exports = {
+export default {
     spawnBuilder,
     spawnHarvester,
     spawnHauler,

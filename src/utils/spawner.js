@@ -1,7 +1,5 @@
-const body = require("utils_body_constants");
-const roles = require("utils_role_constants");
-var {spawnBuilder, spawnHarvester, spawnHauler, spawnUpgrader} = require("utils_spawning");
-var spawnerName = "Gubbins";
+import roles from './role_constants.js';
+const spawnerName = "Gubbins";
 
 var spawner = {
 
@@ -68,4 +66,4 @@ var spawner = {
     }
 }
 
-module.exports = spawner;
+export default spawner;

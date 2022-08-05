@@ -1,4 +1,4 @@
-var targetter = require('utils_targetting');
+import targetter from '../utils/targetting.js';
 var roleHauler = {
 
     /** @param {Creep} creep **/
@@ -19,4 +19,4 @@ var roleHauler = {
 	}
 };
 
-module.exports = roleHauler;
+export default roleHauler;

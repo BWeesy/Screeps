@@ -1,12 +1,14 @@
-var roleHarvester = require('role_harvester');
-var roleUpgrader = require('role_upgrader');
-var roleBuilder = require('role_builder');
-var roleHauler = require('role_hauler');
-var spawner = require('utils_spawner');
+import roleHarvester from './role/harvester.js';
+import roleUpgrader from './role/upgrader.js';
+import roleBuilder from './role/builder.js';
+import roleHauler from './role/hauler.js';
+import spawner from './utils/spawner.js';
+import buildingPlanner from './utils/building_planner.ts';
 
 module.exports.loop = function () {
     spawner.run();
 
+    _.forEach(Game.spawns, (spawner, _) => buildingPlanner.buildContainers(spawner));
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
