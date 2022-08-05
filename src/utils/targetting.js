@@ -62,7 +62,7 @@ var targetter = {
         });
 
         if (targets.length > 0) {
-            targetStorage = _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
+            targetStorage = _.sortBy(targets, t => t.store[RESOURCE_ENERGY])[0];
             return targetStorage
         } else{
             var targets = creep.room.find(FIND_SOURCES, {
