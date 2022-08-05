@@ -23,7 +23,6 @@ var roleBuilder = {
 	    	if (creep.memory.repairId){
 	    		if(creep.repair(Game.getObjectById(creep.memory.repairId)) == ERR_NOT_IN_RANGE) {
                 	creep.moveTo(Game.getObjectById(creep.memory.repairId), {visualizePathStyle: {stroke: '#ffaa00'}});
-                	console.log('moving');
                 	creep.say('re');
             	}
             	if (Game.getObjectById(creep.memory.repairId).hits == Game.getObjectById(creep.memory.repairId).hitsMax){
