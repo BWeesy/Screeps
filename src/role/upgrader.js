@@ -1,3 +1,4 @@
+var targetter = require('utils_targetting');
 var roleUpgrader = {
     
     /** @param {Creep} creep **/
@@ -9,6 +10,7 @@ var roleUpgrader = {
         }
         if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
             creep.memory.upgrading = true;
+            delete(creep.memory.targetStorage);
             creep.say('? upgrade');
         }
 
@@ -19,10 +21,10 @@ var roleUpgrader = {
             }
         }
         else {
-            var sources = creep.room.find(FIND_SOURCES);
             //TODO write clever targeting based on energy available and proximity
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+            targetStorage = targetter.withdraw(creep);
+            if(creep.withdraw(Game.getObjectById(targetStorage), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(Game.getObjectById(targetStorage), {visualizePathStyle: {stroke: '#ffaa00'}});
             }
         }
     }

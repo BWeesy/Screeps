@@ -10,6 +10,7 @@ var roleBuilder = {
 	    }
 	    if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) { //when full, build
 	        creep.memory.building = true;
+			delete(creep.memory.targetStorage);
 	        creep.say('build');
 	    }
 
@@ -36,8 +37,8 @@ var roleBuilder = {
 	    	}
 	    } else {
 	        targetStorage = targetter.withdraw(creep);
-	        if(creep.withdraw(targetStorage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-             	creep.moveTo(targetStorage, {visualizePathStyle: {stroke: '#ffaa00'}});
+	        if(creep.withdraw(Game.getObjectById(targetStorage), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+             	creep.moveTo(Game.getObjectById(targetStorage), {visualizePathStyle: {stroke: '#ffaa00'}});
             }
             if(creep.harvest(targetStorage) == ERR_NOT_IN_RANGE) {
              	creep.moveTo(targetStorage, {visualizePathStyle: {stroke: '#ffaa00'}});

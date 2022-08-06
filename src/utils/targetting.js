@@ -54,25 +54,31 @@ var targetter = {
     },
 
     withdraw: function(creep) {
-        var targets = creep.room.find(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE) &&
-                    structure.store[RESOURCE_ENERGY] > 0;
-            }
-        });
-
-        if (targets.length > 0) {
-            targetStorage = _.last(_.sortBy(targets, t => t.store[RESOURCE_ENERGY]));
-            return targetStorage
-        } else{
-            var targets = creep.room.find(FIND_SOURCES, {
-                filter: (source) => {
-                    return source.energy < source.energyCapacity;
+        if (!creep.memory.targetStorage) {
+            var targets = creep.room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE) &&
+                        structure.store[RESOURCE_ENERGY] > 0;
                 }
             });
 
-            targetSource = _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
-            return targetSource
+            if (targets.length > 0) {
+                targetStorage = _.last(_.sortBy(targets, t => t.store[RESOURCE_ENERGY]));
+                creep.memory.targetStorage = targetStorage.id
+                return targetStorage.id
+            } else{
+                var targets = creep.room.find(FIND_SOURCES, {
+                    filter: (source) => {
+                        return source.energy < source.energyCapacity;
+                    }
+                });
+
+                targetSource = _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
+                return targetSource
+            }
+        }
+        else {
+            return creep.memory.targetStorage
         }
     },
 

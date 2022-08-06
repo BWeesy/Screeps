@@ -5,11 +5,9 @@ var roleHauler = {
     run: function(creep) {
 
         if(creep.carry.energy == 0) {
-            if (!creep.memory.targetStorage){
-	        creep.memory.targetStorage = targetter.withdraw(creep).id;
-        }
-	        if(creep.withdraw(Game.getObjectById(creep.memory.targetStorage), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-             	creep.moveTo(Game.getObjectById(creep.memory.targetStorage), {visualizePathStyle: {stroke: '#ffaa00'}});
+            targetStorage = targetter.withdraw(creep)
+	        if(creep.withdraw(Game.getObjectById(targetStorage), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+             	creep.moveTo(Game.getObjectById(targetStorage), {visualizePathStyle: {stroke: '#ffaa00'}});
             }
         }
         else {
