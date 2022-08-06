@@ -1,20 +1,23 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use strict";
 
-import clear from 'rollup-plugin-clear';
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import typescript from 'rollup-plugin-typescript2';
-import screeps from 'rollup-plugin-screeps';
+import auth from "./Auth.json";
+import clear from "rollup-plugin-clear";
+import commonjs from "@rollup/plugin-commonjs";
+import resolve from "@rollup/plugin-node-resolve";
+import screeps from "rollup-plugin-screeps";
+import typescript from "rollup-plugin-typescript2";
 
-var auth = require("./Auth.json");
 const screepsConfig = {
-    "token": auth.token,
-    "protocol": "https",
-    "hostname": "screeps.com",
-    "port": 443,
-    "path": "/",
-    "branch": "main"
-  };
+  token: auth.token,
+  protocol: "https",
+  hostname: "screeps.com",
+  port: 443,
+  path: "/",
+  branch: "main"
+};
 
 export default {
   input: "src/main.js",
@@ -28,7 +31,7 @@ export default {
     clear({ targets: ["dist"] }),
     resolve({ rootDir: "src" }),
     commonjs(),
-    typescript({tsconfig: "./tsconfig.json"}),
-    screeps({config: screepsConfig, dryRun: screepsConfig == null})
+    typescript({ tsconfig: "./tsconfig.json" }),
+    screeps({ config: screepsConfig, dryRun: screepsConfig == null })
   ]
-}
+};
