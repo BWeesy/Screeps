@@ -29,10 +29,11 @@ function spawnHarvester() {
 function spawnBuilder() {
     var bodyPieces = [MOVE, CARRY, WORK];
     var cost = body.MOVE.cost + body.CARRY.cost + body.WORK.cost;
-    while(cost + body.WORK.cost + body.CARRY.cost <= availableEnergy){
+    while(cost + body.WORK.cost + body.CARRY.cost + body.MOVE.cost <= availableEnergy){
         bodyPieces.push(WORK);
         bodyPieces.push(CARRY);
-        cost += body.WORK.cost + body.CARRY.cost;
+        bodyPieces.push(MOVE);
+        cost += body.WORK.cost + body.CARRY.cost + body.MOVE.cost;
     }
     var code = spawner.spawnCreep(bodyPieces, createName('builder'), {memory: {role: 'builder'}});
     console.log('Spawning new builder: ' + code);
@@ -49,8 +50,9 @@ function spawnUpgrader() {
 function spawnHauler() {
     var bodyPieces = [MOVE, CARRY];
     var cost = body.MOVE.cost + body.CARRY.cost;
-    while(cost + body.WORK.cost + body.CARRY.cost <= availableEnergy){
-        bodyPieces.push(WORK);
+    while(cost + body.MOVE.cost + 2 * body.CARRY.cost <= availableEnergy){
+        bodyPieces.push(MOVE);
+        bodyPieces.push(CARRY);
         bodyPieces.push(CARRY);
         cost += body.WORK.cost + body.CARRY.cost;
     }

@@ -10,6 +10,7 @@ var roleBuilder = {
 	    }
 	    if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) { //when full, build
 	        creep.memory.building = true;
+			delete(creep.memory.targetStorage);
 	        creep.say('build');
 	    }
 
@@ -23,7 +24,6 @@ var roleBuilder = {
 	    	if (creep.memory.repairId){
 	    		if(creep.repair(Game.getObjectById(creep.memory.repairId)) == ERR_NOT_IN_RANGE) {
                 	creep.moveTo(Game.getObjectById(creep.memory.repairId), {visualizePathStyle: {stroke: '#ffaa00'}});
-                	console.log('moving');
                 	creep.say('re');
             	}
             	if (Game.getObjectById(creep.memory.repairId).hits == Game.getObjectById(creep.memory.repairId).hitsMax){
@@ -37,8 +37,8 @@ var roleBuilder = {
 	    	}
 	    } else {
 	        targetStorage = targetter.withdraw(creep);
-	        if(creep.withdraw(targetStorage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-             	creep.moveTo(targetStorage, {visualizePathStyle: {stroke: '#ffaa00'}});
+	        if(creep.withdraw(Game.getObjectById(targetStorage), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+             	creep.moveTo(Game.getObjectById(targetStorage), {visualizePathStyle: {stroke: '#ffaa00'}});
             }
             if(creep.harvest(targetStorage) == ERR_NOT_IN_RANGE) {
              	creep.moveTo(targetStorage, {visualizePathStyle: {stroke: '#ffaa00'}});
