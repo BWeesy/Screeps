@@ -1,20 +1,19 @@
+import { isFullAndNotWorking, isWorking, isWorkingAndEmpty } from "../utils/creep";
 import targetter from "../utils/targetting";
 const roleBuilder = {
   run(creep: Creep): void {
-    if (creep.memory.working && creep.carry.energy === 0) {
-      // when out of energy, harvest
+    if (isWorkingAndEmpty(creep)) {
       creep.memory.working = false;
-      creep.say("harvest");
+      creep.memory.workId = null;
+      creep.say("Getting Energy");
     }
-    if (!creep.memory.working && creep.carry.energy === creep.carryCapacity) {
-      // when full, build
+    if (isFullAndNotWorking(creep)) {
       creep.memory.working = true;
       creep.memory.workId = null;
-      creep.say("build");
+      creep.say("Building");
     }
 
-    if (creep.memory.working) {
-      const targetBuild = targetter.build(creep);
+    if (isWorking(creep)) {
       const targetRepair = targetter.repair(creep);
       if (targetRepair && !creep.memory.workId) {
         creep.memory.workId = targetRepair.id;
@@ -28,7 +27,11 @@ const roleBuilder = {
         if (target.hits === target.hitsMax) {
           creep.memory.workId = null;
         }
-      } else if (targetBuild) {
+      }
+
+      // No memory needed, targetter spreads out builders based on building progress
+      const targetBuild = targetter.build(creep);
+      if (targetBuild) {
         if (creep.build(targetBuild) === ERR_NOT_IN_RANGE) {
           creep.memory.workId = targetBuild.id;
           creep.moveTo(targetBuild, { visualizePathStyle: { stroke: "#ffaa00" } });

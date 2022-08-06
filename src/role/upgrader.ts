@@ -1,18 +1,16 @@
+import { isFullAndNotWorking, isWorking, isWorkingAndEmpty } from "../utils/creep";
 import targetter from "../utils/targetting";
 
 const roleUpgrader = {
   run(creep: Creep): void {
-    if (creep.memory.working && creep.carry.energy === 0) {
-      creep.memory.working = false;
-      creep.say("?? harvest");
+    if (isWorkingAndEmpty(creep)) {
+      setToGettingEnergy(creep);
     }
-    if (!creep.memory.working && creep.carry.energy === creep.carryCapacity) {
-      creep.memory.working = true;
-      creep.memory.workId = null;
-      creep.say("? upgrade");
+    if (isFullAndNotWorking(creep)) {
+      setToWorking(creep);
     }
 
-    if (creep.memory.working) {
+    if (isWorking(creep)) {
       if (creep.upgradeController(creep.room.controller as StructureController) === ERR_NOT_IN_RANGE) {
         creep.moveTo(creep.room.controller as StructureController, { visualizePathStyle: { stroke: "#ffffff" } });
       }
@@ -20,12 +18,23 @@ const roleUpgrader = {
       if (!creep.memory.workId) {
         creep.memory.workId = targetter.source(creep)?.id ?? null;
       }
-      const source = creep.memory.workId ? (Game.getObjectById(creep.memory.workId) as Source) : null;
-      if (source && creep.harvest(source) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(source, { visualizePathStyle: { stroke: "#ffaa00" } });
+      const targetSource = creep.memory.workId ? (Game.getObjectById(creep.memory.workId) as Source) : null;
+      if (targetSource && creep.harvest(targetSource) === ERR_NOT_IN_RANGE) {
+        creep.moveTo(targetSource, { visualizePathStyle: { stroke: "#ffaa00" } });
       }
     }
   }
 };
+
+function setToGettingEnergy(creep: Creep) {
+  creep.memory.working = false;
+  creep.say("Getting Energy");
+}
+
+function setToWorking(creep: Creep) {
+  creep.memory.working = true;
+  creep.memory.workId = null;
+  creep.say("Upgrading");
+}
 
 export default roleUpgrader;
