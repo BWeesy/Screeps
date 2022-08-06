@@ -1,7 +1,7 @@
 const targetter = {
   source(creep: Creep): Source | null {
     if (creep.memory.workId) {
-      return creep.pos.findClosestByPath(FIND_SOURCES, { filter: s => s.id == creep.memory.workId });
+      return creep.pos.findClosestByPath(FIND_SOURCES, { filter: s => s.id === creep.memory.workId });
     } else {
       const targets = creep.room.find(FIND_SOURCES, {
         filter: source => {
