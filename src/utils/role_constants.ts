@@ -1,4 +1,4 @@
-import spawning from '../utils/spawning.js';
+import spawning from './spawning.js';
 
 export default {
     HARVEST: {name : 'harvester', spawn : spawning.spawnHarvester},
