@@ -23,10 +23,15 @@ declare global {
   interface CreepMemory {
     role: string;
     working: boolean;
+    workId: Id<_HasId> | null;
+  }
+  interface Role {
+    name: string;
+    spawn: void;
   }
 }
 
-export const loop = () => {
+export const loop = (): void => {
   spawner.run();
 
   forEach(Game.spawns, spawn => buildingPlanner.buildContainers(spawn));

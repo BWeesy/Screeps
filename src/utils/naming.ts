@@ -1,6 +1,3 @@
-var createName = (role) => {
-    var number = Math.random().toFixed(3) * 1000;
-    return role + number.toString();
-}
+const createName = (role: string): string => `${role}${(Number(Math.random().toFixed(3)) * 1000).toString()}`;
 
 export default createName;

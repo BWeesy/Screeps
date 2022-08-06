@@ -1,66 +1,72 @@
-import body from './body_constants.js';
-import createName from './naming';
+import { filter, first } from "lodash";
+import body from "./body_constants.js";
+import createName from "./naming";
 
-var spawner = Game.spawns['Gubbins'];
-var sources = spawner.room.find(FIND_SOURCES);
-var availableEnergy = spawner.room.energyAvailable;
+const spawner = Game.spawns.Gubbins;
+const sources = spawner.room.find(FIND_SOURCES);
+const availableEnergy = spawner.room.energyAvailable;
 
-function spawnHarvester() {
-    sources.forEach(function(srs){
-        var tmp = spawner.room.find(FIND_MY_CREEPS, {filter: (s) => s.memory.source == srs.id})
-        if(tmp == ''){
-            var targetSource = srs.id;
-        }
-        });
+function spawnHarvester(): void {
+  const targetSource = first(
+    filter(sources, srs => spawner.room.find(FIND_MY_CREEPS, { filter: s => s.memory.workId === srs.id }).length === 0)
+  );
 
-        var bodyPieces = [WORK, MOVE, CARRY];
-        var cost = body.WORK.cost + body.MOVE.cost + body.CARRY.cost;
-        while(cost + body.WORK.cost <= availableEnergy){
-            bodyPieces.push(WORK);
-            cost += body.WORK.cost;
-        }
+  const bodyPieces = [WORK, MOVE, CARRY];
+  let cost = body.WORK.cost + body.MOVE.cost + body.CARRY.cost;
+  while (cost + body.WORK.cost <= availableEnergy) {
+    bodyPieces.push(WORK);
+    cost += body.WORK.cost;
+  }
 
-        var code = spawner.spawnCreep(bodyPieces, createName('harvester'), {memory: {role: 'harvester', source: targetSource}});
-        console.log('Spawning new harvester: ' + code);
-        return;
+  const code = spawner.spawnCreep(bodyPieces, createName("harvester"), {
+    memory: { role: "harvester", workId: targetSource.id, working: false }
+  });
+  console.log(`Spawning new harvester: ${code}`);
+  return;
 }
 
-function spawnBuilder() {
-    var bodyPieces = [MOVE, CARRY, WORK];
-    var cost = body.MOVE.cost + body.CARRY.cost + body.WORK.cost;
-    while(cost + body.WORK.cost + body.CARRY.cost <= availableEnergy){
-        bodyPieces.push(WORK);
-        bodyPieces.push(CARRY);
-        cost += body.WORK.cost + body.CARRY.cost;
-    }
-    var code = spawner.spawnCreep(bodyPieces, createName('builder'), {memory: {role: 'builder'}});
-    console.log('Spawning new builder: ' + code);
-    return;
+function spawnBuilder(): void {
+  const bodyPieces = [MOVE, CARRY, WORK];
+  let cost = body.MOVE.cost + body.CARRY.cost + body.WORK.cost;
+  while (cost + body.WORK.cost + body.CARRY.cost <= availableEnergy) {
+    bodyPieces.push(WORK);
+    bodyPieces.push(CARRY);
+    cost += body.WORK.cost + body.CARRY.cost;
+  }
+  const code = spawner.spawnCreep(bodyPieces, createName("builder"), {
+    memory: { role: "builder", workId: null, working: false }
+  });
+  console.log(`Spawning new builder: ${code}`);
+  return;
 }
 
-function spawnUpgrader() {
-    var bodyPieces = [WORK, CARRY, MOVE];
-    var code = spawner.spawnCreep(bodyPieces, createName('upgrader'), {memory: {role: 'upgrader'}});
-    console.log('Spawning new upgrader: ' + code);
-    return;
+function spawnUpgrader(): void {
+  const bodyPieces = [WORK, CARRY, MOVE];
+  const code = spawner.spawnCreep(bodyPieces, createName("upgrader"), {
+    memory: { role: "upgrader", workId: null, working: false }
+  });
+  console.log(`Spawning new upgrader: ${code}`);
+  return;
 }
 
-function spawnHauler() {
-    var bodyPieces = [MOVE, CARRY];
-    var cost = body.MOVE.cost + body.CARRY.cost;
-    while(cost + body.WORK.cost + body.CARRY.cost <= availableEnergy){
-        bodyPieces.push(WORK);
-        bodyPieces.push(CARRY);
-        cost += body.WORK.cost + body.CARRY.cost;
-    }
-    var code = spawner.spawnCreep(bodyPieces, createName('hauler'), {memory: {role: 'hauler'}});
-    console.log('Spawning new hauler: ' + code);
-    return;
+function spawnHauler(): void {
+  const bodyPieces = [MOVE, CARRY];
+  let cost = body.MOVE.cost + body.CARRY.cost;
+  while (cost + body.MOVE.cost + body.CARRY.cost <= availableEnergy) {
+    bodyPieces.push(MOVE);
+    bodyPieces.push(CARRY);
+    cost += body.WORK.cost + body.CARRY.cost;
+  }
+  const code = spawner.spawnCreep(bodyPieces, createName("hauler"), {
+    memory: { role: "hauler", workId: null, working: false }
+  });
+  console.log(`Spawning new hauler: ${code}`);
+  return;
 }
 
 export default {
-    spawnBuilder,
-    spawnHarvester,
-    spawnHauler,
-    spawnUpgrader
-}
+  spawnBuilder,
+  spawnHarvester,
+  spawnHauler,
+  spawnUpgrader
+};

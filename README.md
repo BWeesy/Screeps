@@ -7,8 +7,3 @@ Screeps allowed deploment to the game from local machine via an Auth token. Crea
     "email": "<YOUR_EMAIL>",
     "token": "<YOUR_TOKEN>"
 }
-
-Grunt
-There are two main grunt tasks, build and deploy.
--Build cleans the dist folder, then copies and flattens every js file in the src folder into the dist folder.
--Deploy runs the build task, then uploads the contents of dist to the screeps api using the credentials as defined in the Auth.json file.

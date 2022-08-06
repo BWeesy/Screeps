@@ -1,50 +1,53 @@
-import targetter from '../utils/targetting.js';
-var roleBuilder = {
+import targetter from "../utils/targetting";
+const roleBuilder = {
+  /** @param {Creep} creep **/
+  run(creep: Creep): void {
+    if (creep.memory.working && creep.carry.energy === 0) {
+      // when out of energy, harvest
+      creep.memory.working = false;
+      creep.say("harvest");
+    }
+    if (!creep.memory.working && creep.carry.energy === creep.carryCapacity) {
+      // when full, build
+      creep.memory.working = true;
+      creep.say("build");
+    }
 
-    /** @param {Creep} creep **/
-    run: function(creep) {
+    if (creep.memory.working) {
+      const targetBuild = targetter.build(creep);
+      const targetRepair = targetter.repair(creep);
+      if (targetRepair && !creep.memory.workId) {
+        creep.memory.workId = targetRepair.id;
+      }
+      if (creep.memory.workId) {
+        const target = Game.getObjectById(creep.memory.workId) as Structure;
+        if (creep.repair(target) === ERR_NOT_IN_RANGE) {
+          creep.moveTo(target, { visualizePathStyle: { stroke: "#ffaa00" } });
+          console.log("moving");
+          creep.say("re");
+        }
+        if (target.hits === target.hitsMax) {
+          creep.memory.workId = null;
+        }
+      } else if (targetBuild) {
+        if (creep.build(targetBuild) === ERR_NOT_IN_RANGE) {
+          creep.moveTo(targetBuild, { visualizePathStyle: { stroke: "#ffaa00" } });
+          creep.say("b");
+        }
+      }
+    } else {
+      const targetContainer = targetter.withdrawContainer(creep);
 
-	    if(creep.memory.building && creep.carry.energy == 0) { //when out of energy, harvest
-            creep.memory.building = false;
-            creep.say('harvest');
-	    }
-	    if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) { //when full, build
-	        creep.memory.building = true;
-	        creep.say('build');
-	    }
+      if (targetContainer && creep.withdraw(targetContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+        creep.moveTo(targetContainer, { visualizePathStyle: { stroke: "#ffaa00" } });
+      }
 
-	    if(creep.memory.building) {
-	    	var targetBuild = targetter.build(creep);
-	    	targetWall = targetter.wall(creep);
-	    	targetRepair = targetter.repair(creep);
-	    	if (targetRepair && !creep.memory.repairId){
-	    		creep.memory.repairId = targetRepair.id;
-	    	}
-	    	if (creep.memory.repairId){
-	    		if(creep.repair(Game.getObjectById(creep.memory.repairId)) == ERR_NOT_IN_RANGE) {
-                	creep.moveTo(Game.getObjectById(creep.memory.repairId), {visualizePathStyle: {stroke: '#ffaa00'}});
-                	console.log('moving');
-                	creep.say('re');
-            	}
-            	if (Game.getObjectById(creep.memory.repairId).hits == Game.getObjectById(creep.memory.repairId).hitsMax){
-            		creep.memory.repairId = false;
-            	}
-	    	} else if (targetBuild) {
-	    		if(creep.build(targetBuild) == ERR_NOT_IN_RANGE) {
-                	creep.moveTo(targetBuild, {visualizePathStyle: {stroke: '#ffaa00'}});
-                	creep.say('b');
-            	}
-	    	}
-	    } else {
-	        targetStorage = targetter.withdraw(creep);
-	        if(creep.withdraw(targetStorage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-             	creep.moveTo(targetStorage, {visualizePathStyle: {stroke: '#ffaa00'}});
-            }
-            if(creep.harvest(targetStorage) == ERR_NOT_IN_RANGE) {
-             	creep.moveTo(targetStorage, {visualizePathStyle: {stroke: '#ffaa00'}});
-            }
-	    }
-	}
+      const targetSource = targetter.withdrawSource(creep);
+      if (targetSource && creep.harvest(targetSource) === ERR_NOT_IN_RANGE) {
+        creep.moveTo(targetSource, { visualizePathStyle: { stroke: "#ffaa00" } });
+      }
+    }
+  }
 };
 
 export default roleBuilder;
