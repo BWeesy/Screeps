@@ -1,5 +1,3 @@
-import buildingPlanner from "./utils/building_planner";
-import { forEach } from "lodash";
 import roleBuilder from "./role/builder";
 import roleHarvester from "./role/harvester";
 import roleHauler from "./role/hauler";
@@ -33,8 +31,6 @@ declare global {
 
 export const loop = (): void => {
   spawner.run();
-
-  forEach(Game.spawns, spawn => buildingPlanner.buildContainers(spawn));
 
   for (const name in Game.creeps) {
     const creep = Game.creeps[name];

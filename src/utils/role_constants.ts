@@ -1,4 +1,4 @@
-import spawning from "./spawning.js";
+import spawning from "./spawning";
 
 interface Role {
   name: string;

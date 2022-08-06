@@ -15,8 +15,7 @@
   "homepage": "https://github.com/BWeesy/Screeps#readme",
   "scripts": {
     "lint": "eslint \"src/**\"",
-    "build": "rollup -c",
-    "deploy": "rollup -c",
+    "deploy": "npm run lint && rollup -c",
     "test": "npm run test-unit",
     "test-unit": "mocha test/unit/**/*.ts",
     "watch-main": "rollup -cw"

@@ -1,5 +1,5 @@
 import { forEach } from "lodash";
-import roles from "./role_constants.js";
+import roles from "./role_constants";
 
 const spawnerName = "Gubbins";
 
