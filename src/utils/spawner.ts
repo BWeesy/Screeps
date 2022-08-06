@@ -13,7 +13,6 @@ interface CreepDict {
 }
 
 const spawner = {
-  /** @param {} **/
   run(): void {
     const spawn = Game.spawns[spawnerName];
     const maxEnergy = spawn.room.energyCapacityAvailable;
@@ -36,10 +35,6 @@ const spawner = {
         align: "left",
         opacity: 0.8
       });
-    }
-
-    if (maxEnergy !== availableEnergy) {
-      return;
     }
 
     const creepDict: CreepDict = {
@@ -71,6 +66,14 @@ const spawner = {
       roles.UPGRADE,
       roles.HAUL
     ];
+
+    const spawnEnergy = spawn.store.getUsedCapacity(RESOURCE_ENERGY);
+    if (maxEnergy !== availableEnergy) {
+      if (spawnEnergy === SPAWN_ENERGY_CAPACITY && creepDict.harvester.actual === 0) {
+        roles.HARVEST.spawn();
+      }
+      return;
+    }
 
     forEach(spawnList, role => {
       creepDict[role.name].target++;
