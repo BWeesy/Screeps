@@ -39,6 +39,9 @@ function depositEnergy(creep: Creep) {
   if (targetSpawner && creep.transfer(targetSpawner, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
     creep.moveTo(targetSpawner, { visualizePathStyle: { stroke: "#ffffff" } });
   }
+  if (targetSpawner && targetSpawner.store.getFreeCapacity(RESOURCE_ENERGY) === 0) {
+    creep.memory.workId = null;
+  }
 }
 
 function getEnergy(creep: Creep) {
@@ -51,14 +54,6 @@ function getEnergy(creep: Creep) {
   if (targetContainer && creep.withdraw(targetContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
     creep.moveTo(targetContainer, { visualizePathStyle: { stroke: "#ffaa00" } });
     return;
-  }
-
-  if (!creep.memory.workId) {
-    creep.memory.workId = targetter.withdrawSource(creep)?.id ?? null;
-  }
-  const targetSource = creep.memory.workId ? (Game.getObjectById(creep.memory.workId) as Source) : null;
-  if (targetSource && creep.harvest(targetSource) === ERR_NOT_IN_RANGE) {
-    creep.moveTo(targetSource, { visualizePathStyle: { stroke: "#ffaa00" } });
   }
 }
 

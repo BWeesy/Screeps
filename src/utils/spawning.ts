@@ -22,8 +22,8 @@ function spawnHarvester(): void {
   }
 
   const availableEnergy = spawner.room.energyAvailable;
-  const bodyPieces = [WORK, MOVE, CARRY];
-  let cost = body.WORK.cost + body.MOVE.cost + body.CARRY.cost;
+  const bodyPieces = [WORK, MOVE, CARRY, WORK];
+  let cost = 2 * body.WORK.cost + body.MOVE.cost + body.CARRY.cost;
   while (cost + body.WORK.cost <= availableEnergy) {
     bodyPieces.push(WORK);
     cost += body.WORK.cost;
