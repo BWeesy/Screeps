@@ -1,4 +1,5 @@
 import { forEach } from "lodash";
+import roleNames from "./role_names";
 import roles from "./role_constants";
 
 const spawnerName = "Gubbins";
@@ -39,19 +40,19 @@ const spawner = {
 
     const creepDict: CreepDict = {
       harvester: {
-        actual: _.filter(Game.creeps, creep => creep.memory.role === "harvester").length,
+        actual: _.filter(Game.creeps, creep => creep.memory.role === roleNames.HARVEST).length,
         target: 0
       },
       builder: {
-        actual: _.filter(Game.creeps, creep => creep.memory.role === "builder").length,
+        actual: _.filter(Game.creeps, creep => creep.memory.role === roleNames.BUILD).length,
         target: 0
       },
       upgrader: {
-        actual: _.filter(Game.creeps, creep => creep.memory.role === "upgrader").length,
+        actual: _.filter(Game.creeps, creep => creep.memory.role === roleNames.UPGRADE).length,
         target: 0
       },
       hauler: {
-        actual: _.filter(Game.creeps, creep => creep.memory.role === "hauler").length,
+        actual: _.filter(Game.creeps, creep => creep.memory.role === roleNames.HAUL).length,
         target: 0
       }
     };

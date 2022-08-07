@@ -1,3 +1,4 @@
+import roleNames from "./role_names";
 import spawning from "./spawning";
 
 interface Role {
@@ -9,10 +10,10 @@ interface RoleDict {
 }
 
 const roles: RoleDict = {
-  HARVEST: { name: "harvester", spawn: spawning.spawnHarvester },
-  BUILD: { name: "builder", spawn: spawning.spawnBuilder },
-  HAUL: { name: "hauler", spawn: spawning.spawnHauler },
-  UPGRADE: { name: "upgrader", spawn: spawning.spawnUpgrader }
+  HARVEST: { name: roleNames.HARVEST, spawn: spawning.spawnHarvester },
+  BUILD: { name: roleNames.BUILD, spawn: spawning.spawnBuilder },
+  HAUL: { name: roleNames.HAUL, spawn: spawning.spawnHauler },
+  UPGRADE: { name: roleNames.UPGRADE, spawn: spawning.spawnUpgrader }
 };
 
 export default roles;
