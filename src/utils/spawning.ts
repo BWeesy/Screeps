@@ -1,15 +1,18 @@
-import { filter, first } from "lodash";
 import body from "./body_constants";
 import createName from "./naming";
 
 const spawner = Game.spawns.Gubbins;
-const sources = spawner.room.find(FIND_SOURCES);
 const availableEnergy = spawner.room.energyAvailable;
 
 function spawnHarvester(): void {
-  const targetSource = first(
-    filter(sources, srs => spawner.room.find(FIND_MY_CREEPS, { filter: s => s.memory.workId === srs.id }).length === 0)
-  );
+  const sources = spawner.room.find(FIND_SOURCES);
+  let targetId: Id<Source> = "" as Id<Source>;
+  sources.forEach(function (srs) {
+    const tmp = spawner.room.find(FIND_MY_CREEPS, { filter: s => s.memory.workId === srs.id });
+    if (!tmp) {
+      targetId = srs.id;
+    }
+  });
 
   const bodyPieces = [WORK, MOVE, CARRY];
   let cost = body.WORK.cost + body.MOVE.cost + body.CARRY.cost;
@@ -19,7 +22,7 @@ function spawnHarvester(): void {
   }
 
   const code = spawner.spawnCreep(bodyPieces, createName("harvester"), {
-    memory: { role: "harvester", workId: targetSource.id, working: false }
+    memory: { role: "harvester", workId: targetId, working: false }
   });
   console.log(`Spawning new harvester: ${code}`);
   return;
@@ -44,7 +47,7 @@ function spawnBuilder(): void {
 function spawnUpgrader(): void {
   const bodyPieces = [WORK, CARRY, MOVE];
   const code = spawner.spawnCreep(bodyPieces, createName("upgrader"), {
-    memory: { role: "upgrader", workId: null, working: false }
+    memory: { role: "upgrader", workId: null, working: true }
   });
   console.log(`Spawning new upgrader: ${code}`);
   return;

@@ -1,10 +1,6 @@
 const targetter = {
   source(creep: Creep): Source | null {
-    const targets = creep.room.find(FIND_SOURCES, {
-      filter: source => {
-        return source.energy < source.energyCapacity;
-      }
-    });
+    const targets = creep.room.find(FIND_SOURCES);
 
     return _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
   },
@@ -50,7 +46,6 @@ const targetter = {
         (structure.structureType === STRUCTURE_CONTAINER || structure.structureType === STRUCTURE_STORAGE) &&
         structure.store[RESOURCE_ENERGY] > 0
     }) as unknown as (StructureContainer | StructureStorage)[];
-
     if (containerTargets.length > 0) {
       return _.last(_.sortBy(containerTargets, t => t.store[RESOURCE_ENERGY]));
     } else {
@@ -59,9 +54,7 @@ const targetter = {
   },
 
   withdrawSource(creep: Creep): Source | null {
-    const sourceTargets = creep.room.find(FIND_SOURCES, {
-      filter: source => source.energy < source.energyCapacity
-    });
+    const sourceTargets = creep.room.find(FIND_SOURCES);
     return _.sortBy(sourceTargets, t => creep.pos.getRangeTo(t))[0];
   },
 

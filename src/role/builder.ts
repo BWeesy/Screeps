@@ -40,7 +40,6 @@ const roleBuilder = {
       }
     } else {
       const targetContainer = targetter.withdrawContainer(creep);
-
       if (targetContainer && creep.withdraw(targetContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
         creep.moveTo(targetContainer, { visualizePathStyle: { stroke: "#ffaa00" } });
       }

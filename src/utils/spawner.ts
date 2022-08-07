@@ -79,8 +79,9 @@ const spawner = {
       creepDict[role.name].target++;
       if (creepDict[role.name].actual < creepDict[role.name].target) {
         role.spawn();
-        return;
+        return false;
       }
+      return true;
     });
     return;
   }

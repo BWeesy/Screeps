@@ -1,13 +1,24 @@
-import { isEmpty } from "utils/creep";
+import { isFullAndNotWorking, isWorking, isWorkingAndEmpty } from "utils/creep";
 import targetter from "../utils/targetting";
 const roleHauler = {
   run(creep: Creep): void {
-    if (isEmpty(creep)) {
+    if (isWorkingAndEmpty(creep)) {
+      creep.memory.working = false;
+      creep.memory.workId = null;
+      creep.say("Getting Energy");
+    }
+    if (isFullAndNotWorking(creep)) {
+      creep.memory.working = true;
+      creep.memory.workId = null;
+      creep.say("Hauling");
+    }
+
+    if (isWorking(creep)) {
       if (!creep.memory.workId) {
         creep.memory.workId = targetter.withdrawContainer(creep)?.id ?? null;
       }
       const targetContainer = creep.memory.workId
-        ? (Game.getObjectById(creep.memory.workId) as StructureContainer | StructureStorage)
+        ? (Game.getObjectById(creep.memory.workId) as StructureContainer | StructureStorage | null)
         : null;
       if (targetContainer && creep.withdraw(targetContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
         creep.moveTo(targetContainer, { visualizePathStyle: { stroke: "#ffaa00" } });
