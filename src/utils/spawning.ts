@@ -2,18 +2,26 @@ import body from "./body_constants";
 import createName from "./naming";
 
 const spawner = Game.spawns.Gubbins;
-const availableEnergy = spawner.room.energyAvailable;
 
 function spawnHarvester(): void {
   const sources = spawner.room.find(FIND_SOURCES);
-  let targetId: Id<Source> = "" as Id<Source>;
+  let targetId: Id<Source> | null = null;
   sources.forEach(function (srs) {
-    const tmp = spawner.room.find(FIND_MY_CREEPS, { filter: s => s.memory.workId === srs.id });
-    if (!tmp) {
+    const harvestersWithSource = _.filter(
+      Game.creeps,
+      creep => creep.memory.role === "harvester" && creep.memory.workId === srs.id
+    );
+    if (harvestersWithSource.length === 0) {
       targetId = srs.id;
     }
   });
 
+  if (targetId === null) {
+    console.log("No valid source found, aborting spawning harvester");
+    return;
+  }
+
+  const availableEnergy = spawner.room.energyAvailable;
   const bodyPieces = [WORK, MOVE, CARRY];
   let cost = body.WORK.cost + body.MOVE.cost + body.CARRY.cost;
   while (cost + body.WORK.cost <= availableEnergy) {
@@ -29,6 +37,7 @@ function spawnHarvester(): void {
 }
 
 function spawnBuilder(): void {
+  const availableEnergy = spawner.room.energyAvailable;
   const bodyPieces = [MOVE, CARRY, WORK];
   let cost = body.MOVE.cost + body.CARRY.cost + body.WORK.cost;
   while (cost + body.WORK.cost + body.CARRY.cost + body.MOVE.cost <= availableEnergy) {
@@ -54,6 +63,7 @@ function spawnUpgrader(): void {
 }
 
 function spawnHauler(): void {
+  const availableEnergy = spawner.room.energyAvailable;
   const bodyPieces = [MOVE, CARRY];
   let cost = body.MOVE.cost + body.CARRY.cost;
   while (cost + body.MOVE.cost + 2 * body.CARRY.cost <= availableEnergy) {
