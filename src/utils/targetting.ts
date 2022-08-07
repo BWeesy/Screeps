@@ -7,8 +7,8 @@ const targetter = {
   spawner(creep: Creep): StructureSpawn | StructureExtension {
     const targets = creep.room.find(FIND_STRUCTURES, {
       filter: structure =>
-        structure.structureType === STRUCTURE_EXTENSION ||
-        (structure.structureType === STRUCTURE_SPAWN && structure.energy < structure.energyCapacity)
+        (structure.structureType === STRUCTURE_EXTENSION || structure.structureType === STRUCTURE_SPAWN) &&
+        structure.energy < structure.energyCapacity
     });
 
     return _.sortBy(targets, t => creep.pos.getRangeTo(t))[0] as StructureSpawn | StructureExtension;
