@@ -59,12 +59,19 @@ const spawner = {
     const spawnList = [
       roles.HARVEST,
       roles.HARVEST,
+      roles.BUILD,
+      roles.BUILD,
+      roles.HAUL,
+      roles.HAUL,
+      roles.UPGRADE,
+      roles.BUILD,
+      roles.UPGRADE,
+      roles.HAUL,
       roles.HAUL,
       roles.BUILD,
-      roles.UPGRADE,
       roles.BUILD,
-      roles.UPGRADE,
-      roles.HAUL
+      roles.BUILD,
+      roles.BUILD
     ];
 
     const spawnEnergy = spawn.store.getUsedCapacity(RESOURCE_ENERGY);

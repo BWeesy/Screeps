@@ -1,7 +1,6 @@
 const targetter = {
   source(creep: Creep): Source | null {
     const targets = creep.room.find(FIND_SOURCES);
-
     return _.sortBy(targets, t => creep.pos.getRangeTo(t))[0];
   },
 

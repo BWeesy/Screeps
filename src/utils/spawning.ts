@@ -46,6 +46,15 @@ function spawnBuilder(): void {
     bodyPieces.push(MOVE);
     cost += body.WORK.cost + body.CARRY.cost + body.MOVE.cost;
   }
+  while (cost + body.CARRY.cost + body.MOVE.cost <= availableEnergy) {
+    bodyPieces.push(CARRY);
+    bodyPieces.push(MOVE);
+    cost += body.CARRY.cost + body.MOVE.cost;
+  }
+  while (cost + body.CARRY.cost <= availableEnergy) {
+    bodyPieces.push(CARRY);
+    cost += body.CARRY.cost;
+  }
   const code = spawner.spawnCreep(bodyPieces, createName("builder"), {
     memory: { role: "builder", workId: null, working: false }
   });
@@ -72,6 +81,16 @@ function spawnHauler(): void {
     bodyPieces.push(CARRY);
     cost += body.WORK.cost + 2 * body.CARRY.cost;
   }
+  while (cost + body.MOVE.cost + body.CARRY.cost <= availableEnergy) {
+    bodyPieces.push(MOVE);
+    bodyPieces.push(CARRY);
+    cost += body.WORK.cost + body.CARRY.cost;
+  }
+  while (cost + body.CARRY.cost <= availableEnergy) {
+    bodyPieces.push(CARRY);
+    cost += body.CARRY.cost;
+  }
+
   const code = spawner.spawnCreep(bodyPieces, createName("hauler"), {
     memory: { role: "hauler", workId: null, working: false }
   });

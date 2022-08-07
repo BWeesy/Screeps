@@ -11,20 +11,28 @@ const roleUpgrader = {
     }
 
     if (isWorking(creep)) {
-      if (creep.upgradeController(creep.room.controller as StructureController) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(creep.room.controller as StructureController, { visualizePathStyle: { stroke: "#ffffff" } });
-      }
+      upgradeController(creep);
     } else {
-      if (!creep.memory.workId) {
-        creep.memory.workId = targetter.source(creep)?.id ?? null;
-      }
-      const targetSource = creep.memory.workId ? (Game.getObjectById(creep.memory.workId) as Source) : null;
-      if (targetSource && creep.harvest(targetSource) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(targetSource, { visualizePathStyle: { stroke: "#ffaa00" } });
-      }
+      getEnergy(creep);
     }
   }
 };
+
+function upgradeController(creep: Creep) {
+  if (creep.upgradeController(creep.room.controller as StructureController) === ERR_NOT_IN_RANGE) {
+    creep.moveTo(creep.room.controller as StructureController, { visualizePathStyle: { stroke: "#ffffff" } });
+  }
+}
+
+function getEnergy(creep: Creep) {
+  if (!creep.memory.workId) {
+    creep.memory.workId = targetter.source(creep)?.id ?? null;
+  }
+  const targetSource = creep.memory.workId ? (Game.getObjectById(creep.memory.workId) as Source) : null;
+  if (targetSource && creep.harvest(targetSource) === ERR_NOT_IN_RANGE) {
+    creep.moveTo(targetSource, { visualizePathStyle: { stroke: "#ffaa00" } });
+  }
+}
 
 function setToGettingEnergy(creep: Creep) {
   creep.memory.working = false;
