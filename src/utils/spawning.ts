@@ -1,5 +1,6 @@
 import body from "./body_constants";
 import createName from "./naming";
+import roleNames from "./role_names";
 
 const spawner = Game.spawns.Gubbins;
 
@@ -9,7 +10,7 @@ function spawnHarvester(): void {
   sources.forEach(function (srs) {
     const harvestersWithSource = _.filter(
       Game.creeps,
-      creep => creep.memory.role === "harvester" && creep.memory.workId === srs.id
+      creep => creep.memory.role === roleNames.HARVEST && creep.memory.workId === srs.id
     );
     if (harvestersWithSource.length === 0) {
       targetId = srs.id;
@@ -29,10 +30,10 @@ function spawnHarvester(): void {
     cost += body.WORK.cost;
   }
 
-  const code = spawner.spawnCreep(bodyPieces, createName("harvester"), {
-    memory: { role: "harvester", workId: targetId, working: false }
+  const code = spawner.spawnCreep(bodyPieces, createName(roleNames.HARVEST), {
+    memory: { role: roleNames.HARVEST, workId: targetId, working: false }
   });
-  console.log(`Spawning new harvester: ${code}`);
+  console.log(`Spawning new harvester: ${code} - ${bodyPieces.toString()}`);
   return;
 }
 
@@ -55,19 +56,19 @@ function spawnBuilder(): void {
     bodyPieces.push(CARRY);
     cost += body.CARRY.cost;
   }
-  const code = spawner.spawnCreep(bodyPieces, createName("builder"), {
-    memory: { role: "builder", workId: null, working: false }
+  const code = spawner.spawnCreep(bodyPieces, createName(roleNames.BUILD), {
+    memory: { role: roleNames.BUILD, workId: null, working: false }
   });
-  console.log(`Spawning new builder: ${code}`);
+  console.log(`Spawning new builder: ${code} - ${bodyPieces.toString()}`);
   return;
 }
 
 function spawnUpgrader(): void {
   const bodyPieces = [WORK, CARRY, MOVE];
-  const code = spawner.spawnCreep(bodyPieces, createName("upgrader"), {
-    memory: { role: "upgrader", workId: null, working: true }
+  const code = spawner.spawnCreep(bodyPieces, createName(roleNames.UPGRADE), {
+    memory: { role: roleNames.UPGRADE, workId: null, working: true }
   });
-  console.log(`Spawning new upgrader: ${code}`);
+  console.log(`Spawning new upgrader: ${code} - ${bodyPieces.toString()}`);
   return;
 }
 
@@ -91,10 +92,10 @@ function spawnHauler(): void {
     cost += body.CARRY.cost;
   }
 
-  const code = spawner.spawnCreep(bodyPieces, createName("hauler"), {
-    memory: { role: "hauler", workId: null, working: false }
+  const code = spawner.spawnCreep(bodyPieces, createName(roleNames.HAUL), {
+    memory: { role: roleNames.HAUL, workId: null, working: false }
   });
-  console.log(`Spawning new hauler: ${code}`);
+  console.log(`Spawning new hauler: ${code} - ${bodyPieces.toString()}`);
   return;
 }
 

@@ -1,6 +1,7 @@
 import roleBuilder from "./role/builder";
 import roleHarvester from "./role/harvester";
 import roleHauler from "./role/hauler";
+import roleNames from "./utils/role_names";
 import roleUpgrader from "./role/upgrader";
 import spawner from "./utils/spawner";
 
@@ -34,16 +35,16 @@ export const loop = (): void => {
 
   for (const name in Game.creeps) {
     const creep = Game.creeps[name];
-    if (creep.memory.role === "harvester") {
+    if (creep.memory.role === roleNames.HARVEST) {
       roleHarvester.run(creep);
     }
-    if (creep.memory.role === "upgrader") {
+    if (creep.memory.role === roleNames.UPGRADE) {
       roleUpgrader.run(creep);
     }
-    if (creep.memory.role === "builder") {
+    if (creep.memory.role === roleNames.BUILD) {
       roleBuilder.run(creep);
     }
-    if (creep.memory.role === "hauler") {
+    if (creep.memory.role === roleNames.HAUL) {
       roleHauler.run(creep);
     }
   }
